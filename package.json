@@ -8,7 +8,8 @@
   "dependencies": {
     "express": "3.2.0",
     "casper": "0.0.7",
-    "cdnjs": "0.0.10"
+    "cdnjs": "0.0.10",
+    "pulldown-resolve": "0.0.2"
   },
   "description": "ERROR: No README.md file found!",
   "main": "app.js",

@@ -7,7 +7,8 @@ var express = require('express'),
     http = require('http'),
     path = require('path'),
     casper = require('casper'),
-    cdnjs = require('cdnjs');
+    cdnjs = require('cdnjs'),
+    resolve = require('pulldown-resolve');
 
 /**
  * Configuration
@@ -68,10 +69,8 @@ app.use(function (err, req, res, next) {
 
 app.localSet = function (req, res, next) {
   var identifier = req.params.identifier,
-      set = registry[identifier];
-  if (typeof set === "undefined") return next();
-  // Found in local registry
-  if (typeof set === "string") set = [set];
+      set = resolve(identifier, registry);
+  if (!set.length) return next();
   res.jsonp(set);
 };
 
@@ -84,7 +83,11 @@ app.get('/', casper.noop({
   ok: "Yep."
 }));
 
-app.get('/set/:identifier',
+app.get('/set/*?',
+  function (req, res, next) {
+    req.params.identifier = req.params[0];
+    next();
+  },
   casper.check.params('identifier'),
   app.localSet,
   function (req, res) {
