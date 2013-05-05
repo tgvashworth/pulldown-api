@@ -16,7 +16,11 @@
   },
   "description": "Pulldown API. Common aliases and sets.",
   "main": "app.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "tap": "~0.4.2",
+    "request": "~2.21.0",
+    "deeper": "~1.0.2"
+  },
   "repository": "",
   "author": "Tom Ashworth <tom@phuu.net>",
   "license": "MIT"
