@@ -1,6 +1,8 @@
 # Pulldown API
 
-Registry for [pulldown](/jackfranklin/pulldown).
+Registry for [pulldown](https://github.com/jackfranklin/pulldown).
+
+Add a set or alias by **submitting a pull request**.
 
 ## Endpoints
 
