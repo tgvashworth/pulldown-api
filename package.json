@@ -12,10 +12,9 @@
   "dependencies": {
     "express": "3.2.0",
     "casper": "0.0.7",
-    "cdnjs": "0.0.10",
-    "pulldown-resolve": "0.0.3"
+    "cdnjs": "0.0.10"
   },
-  "description": "ERROR: No README.md file found!",
+  "description": "Pulldown API. Common aliases and sets.",
   "main": "app.js",
   "devDependencies": {},
   "repository": "",

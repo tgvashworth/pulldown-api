@@ -79,10 +79,7 @@ app.identify = function (req, res, next) {
 var resolveOptions = {
   registry: registry,
   helper: function (identifier, cb) {
-    cdnjs.url(identifier, function (err, result) {
-      if (err) return cb(null, []);
-      cb(null, [result.url]);
-    });
+
   }
 };
 
@@ -100,9 +97,14 @@ app.get('/set/*?',
   casper.check.params('identifier'),
   function (req, res) {
     var identifier = req.params.identifier;
-    resolve(identifier, resolveOptions, function (err, set) {
+    var result = registry[identifier];
+    if (result) {
+      if (typeof result === "string") result = [result];
+      return res.jsonp(result);
+    }
+    cdnjs.url(identifier, function (err, result) {
       if (err) return res.jsonp(404, []);
-      res.jsonp(set);
+      res.jsonp([result.url]);
     });
   });
 
