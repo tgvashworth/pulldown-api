@@ -64,7 +64,16 @@ app.use(function (err, req, res, next) {
 });
 
 /**
- * Serve a local set
+ * Grab the identifier
+ */
+
+app.identify = function (req, res, next) {
+  req.params.identifier = req.params[0];
+  next();
+};
+
+/**
+ * Options for the resolver
  */
 
 var resolveOptions = {
@@ -87,10 +96,7 @@ app.get('/', casper.noop({
 }));
 
 app.get('/set/*?',
-  function (req, res, next) {
-    req.params.identifier = req.params[0];
-    next();
-  },
+  app.identify,
   casper.check.params('identifier'),
   function (req, res) {
     var identifier = req.params.identifier;
@@ -98,6 +104,17 @@ app.get('/set/*?',
       if (err) return res.jsonp(404, []);
       res.jsonp(set);
     });
+  });
+
+app.get('/what/*?',
+  app.identify,
+  casper.check.params('identifier'),
+  function (req, res) {
+    var identifier = req.params.identifier,
+        result = registry[identifier];
+    if (!result) return res.jsonp(404, []);
+    if (typeof result === "string") result = [result];
+    res.jsonp(result);
   });
 
 http.createServer(app).listen(app.get('port'), function(){
