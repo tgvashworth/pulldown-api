@@ -67,11 +67,14 @@ app.use(function (err, req, res, next) {
  * Serve a local set
  */
 
-app.localSet = function (req, res, next) {
-  var identifier = req.params.identifier,
-      set = resolve(identifier, registry);
-  if (!set.length) return next();
-  res.jsonp(set);
+var resolveOptions = {
+  registry: registry,
+  helper: function (identifier, cb) {
+    cdnjs.url(identifier, function (err, result) {
+      if (err) return cb(null, []);
+      cb(null, [result.url]);
+    });
+  }
 };
 
 /**
@@ -89,13 +92,11 @@ app.get('/set/*?',
     next();
   },
   casper.check.params('identifier'),
-  app.localSet,
   function (req, res) {
     var identifier = req.params.identifier;
-    cdnjs.url(identifier, function (err, result) {
-      console.log.apply(console, [].slice.call(arguments));
+    resolve(identifier, resolveOptions, function (err, set) {
       if (err) return res.jsonp(404, []);
-      res.jsonp([result.url]);
+      res.jsonp(set);
     });
   });
 
