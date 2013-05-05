@@ -72,14 +72,14 @@ app.identify = function (req, res, next) {
 };
 
 /**
- * Options for the resolver
+ * Resolve locally
  */
 
-var resolveOptions = {
-  registry: registry,
-  helper: function (identifier, cb) {
-
-  }
+app.resolveLocal = function (req, res, next) {
+  var result = registry[req.params.identifier];
+  if (!result) return next();
+  if (typeof result === "string") result = [result];
+  return res.jsonp(result);
 };
 
 /**
@@ -87,35 +87,18 @@ var resolveOptions = {
  * Yep, this is one file.
  */
 
-app.get('/', casper.noop({
-  ok: "Yep."
-}));
+app.get('/', casper.noop(registry));
 
 app.get('/set/*?',
   app.identify,
   casper.check.params('identifier'),
+  app.resolveLocal,
   function (req, res) {
     var identifier = req.params.identifier;
-    var result = registry[identifier];
-    if (result) {
-      if (typeof result === "string") result = [result];
-      return res.jsonp(result);
-    }
     cdnjs.url(identifier, function (err, result) {
       if (err) return res.jsonp(404, []);
       res.jsonp([result.url]);
     });
-  });
-
-app.get('/what/*?',
-  app.identify,
-  casper.check.params('identifier'),
-  function (req, res) {
-    var identifier = req.params.identifier,
-        result = registry[identifier];
-    if (!result) return res.jsonp(404, []);
-    if (typeof result === "string") result = [result];
-    res.jsonp(result);
   });
 
 http.createServer(app).listen(app.get('port'), function(){
