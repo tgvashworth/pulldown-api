@@ -1,0 +1,5 @@
+{
+  "underscore": "underscore.js",
+  "backbone": ["backbone.js", "underscore", "jquery"],
+  "marionette": ["backbone", "backbone.marionette"]
+}
