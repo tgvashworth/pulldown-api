@@ -1,3 +1,14 @@
+/**
+ * Nodetime
+ */
+
+var nodetime = require('nodetime');
+if(process.env.NODETIME_ACCOUNT_KEY) {
+  nodetime.profile({
+    accountKey: process.env.NODETIME_ACCOUNT_KEY,
+    appName: 'pulldown-api'
+  });
+}
 
 /**
  * Module dependencies.
@@ -63,6 +74,40 @@ app.use(function (err, req, res, next) {
 });
 
 /**
+ * Logging
+ */
+
+app.log = function (scope, name, unit, op) {
+  var args = [].slice.call(arguments);
+  return function (req, res, next) {
+    app.metric.apply(null, args);
+    next();
+  };
+};
+
+app.log.endpoint = function (path) {
+  return function (req, res, next) {
+    return app.log('Endpoint', path || req.path, 'requests', 'sum')(req, res, next);
+  };
+};
+
+app.log.params = function () {
+  return function (req, res, next) {
+    req.params.forEach(function (param) {
+      app.metric('Identifier', param, 'requests', 'sum');
+    });
+    next();
+  };
+};
+
+app.metric = function (scope, name, unit, op) {
+  console.log.apply(console, [].slice.call(arguments));
+  if (process.env.NODETIME_ACCOUNT_KEY) {
+    return nodetime.metric(scope, name, unit, op);
+  }
+};
+
+/**
  * Grab the identifier
  */
 
@@ -87,9 +132,14 @@ app.resolveLocal = function (req, res, next) {
  * Yep, this is one file.
  */
 
-app.get('/', casper.noop(registry));
+app.get('/',
+  app.log.endpoint(),
+  casper.noop(registry));
 
 app.get('/set/*?',
+  app.log.endpoint('/set'),
+  app.log.endpoint(),
+  app.log.params(),
   app.identify,
   casper.check.params('identifier'),
   app.resolveLocal,
@@ -101,6 +151,6 @@ app.get('/set/*?',
     });
   });
 
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), function () {
   console.log('Express server listening on port ' + app.get('port'));
 });
