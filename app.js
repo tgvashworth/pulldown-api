@@ -7,8 +7,7 @@ var express = require('express'),
     http = require('http'),
     path = require('path'),
     casper = require('casper'),
-    cdnjs = require('cdnjs'),
-    resolve = require('pulldown-resolve');
+    cdnjs = require('cdnjs');
 
 /**
  * Configuration
