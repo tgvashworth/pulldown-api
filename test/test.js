@@ -44,41 +44,37 @@ try {
  */
 
 t.test('registry', function (t) {
-  request(config.base, function (err, response, body) {
+  request({url: config.base, json: true}, function (err, response, body) {
     t.notOk(err);
     t.ok(body);
-    var res = JSON.parse(body);
-    t.ok(deepEqual(registry, res));
+    t.ok(deepEqual(registry, body));
     t.end();
   });
 });
 
 t.test('canonical', function (t) {
-  request(config.base + '/set/html5shiv', function (err, response, body) {
+  request({url: config.base + '/set/html5shiv', json: true}, function (err, response, body) {
     t.notOk(err);
     t.ok(body);
-    var res = JSON.parse(body);
-    t.ok(deepEqual([registry['html5shiv']], res));
+    t.ok(deepEqual([registry['html5shiv']], body));
     t.end();
   });
 });
 
 t.test('alias', function (t) {
-  request(config.base + '/set/underscore', function (err, response, body) {
+  request({url: config.base + '/set/underscore', json: true}, function (err, response, body) {
     t.notOk(err);
     t.ok(body);
-    var res = JSON.parse(body);
-    t.ok(deepEqual([registry['underscore']], res));
+    t.ok(deepEqual([registry['underscore']], body));
     t.end();
   });
 });
 
 t.test('set', function (t) {
-  request(config.base + '/set/backbone', function (err, response, body) {
+  request({url: config.base + '/set/backbone', json: true}, function (err, response, body) {
     t.notOk(err);
     t.ok(body);
-    var res = JSON.parse(body);
-    t.ok(deepEqual(registry['backbone'], res));
+    t.ok(deepEqual(registry['backbone'], body));
     t.end();
   });
 });
