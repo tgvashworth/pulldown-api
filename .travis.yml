@@ -11,11 +11,8 @@ env:
 
       +55ldG53oK/KFZroqDosF+m6V+YI2oHaPgVPGcHhfkdN1I5attM='
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
-  - node app.js
-  - sleep 3 # give Web server some time to bind to sockets, etc
+  - node app.js &
+  - sleep 1 # give Web server some time to bind to sockets, etc
 after_success:
   - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
   - git remote add heroku git@heroku.com:pulldown-api.git
