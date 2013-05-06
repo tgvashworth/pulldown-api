@@ -3,5 +3,5 @@
   "underscore": "underscore.js",
   "backbone": ["backbone.js", "underscore", "jquery"],
   "marionette": ["backbone", "backbone.marionette"],
-  "bootstrap": ["http://twitter.github.io/bootstrap/assets/bootstrap.zip", "jquery"]
+  "bootstrap": "http://twitter.github.io/bootstrap/assets/bootstrap.zip"
 }
