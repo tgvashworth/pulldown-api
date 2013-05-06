@@ -2,7 +2,6 @@
 language: node_js
 node_js:
 - '0.10'
-- '0.9'
 env:
   global:
   - secure: ! 'JCfSOxTRvv9OjHNT+Bi2P4Dzsr+gy0+bR4y83oLUne2LhHkDBAX28jBnoF++
@@ -12,7 +11,7 @@ env:
       +55ldG53oK/KFZroqDosF+m6V+YI2oHaPgVPGcHhfkdN1I5attM='
 before_script:
   - node app.js &
-  - sleep 1 # give Web server some time to bind to sockets, etc
+  - sleep 1
 after_success:
   - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
   - git remote add heroku git@heroku.com:pulldown-api.git
