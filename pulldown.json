@@ -2,5 +2,6 @@
   "html5shiv": "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js",
   "underscore": "underscore.js",
   "backbone": ["backbone.js", "underscore", "jquery"],
-  "marionette": ["backbone", "backbone.marionette"]
+  "marionette": ["backbone", "backbone.marionette"],
+  "bootstrap": "http://twitter.github.io/bootstrap/assets/bootstrap.zip"
 }
