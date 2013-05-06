@@ -103,7 +103,7 @@ app.log.params = function () {
 app.metric = function (scope, name, unit, op) {
   console.log.apply(console, [].slice.call(arguments));
   if (process.env.NODETIME_ACCOUNT_KEY) {
-    return nodetime.metric(scope, name, unit, op);
+    return nodetime.metric(scope, name, 1, unit, op);
   }
 };
 
