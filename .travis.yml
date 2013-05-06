@@ -1,0 +1,24 @@
+---
+language: node_js
+node_js:
+- '0.10'
+- '0.9'
+env:
+  global:
+  - secure: ! 'JCfSOxTRvv9OjHNT+Bi2P4Dzsr+gy0+bR4y83oLUne2LhHkDBAX28jBnoF++
+
+      A1R02ypb2QF6Y81TMKgbHBEAx0qa7tEXcg88anJDBoxnlIXdETns7zmMfDoB
+
+      +55ldG53oK/KFZroqDosF+m6V+YI2oHaPgVPGcHhfkdN1I5attM='
+before_script:
+  - node app.js
+after_success:
+  - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+  - git remote add heroku git@heroku.com:pulldown-api.git
+  - echo "Host heroku.com" >> ~/.ssh/config
+  - echo "   StrictHostKeyChecking no" >> ~/.ssh/config
+  - echo "   CheckHostIP no" >> ~/.ssh/config
+  - echo "   UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+  - heroku keys:clear
+  - yes | heroku keys:add
+  - yes | git push heroku master
