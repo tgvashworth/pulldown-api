@@ -11,7 +11,7 @@ env:
 
       +55ldG53oK/KFZroqDosF+m6V+YI2oHaPgVPGcHhfkdN1I5attM='
 before_script:
-  - node app.js
+  - screen node app.js
 after_success:
   - wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
   - git remote add heroku git@heroku.com:pulldown-api.git
