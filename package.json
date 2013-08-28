@@ -1,6 +1,7 @@
 {
   "name": "pulldown-api",
   "version": "0.1.2",
+  "private": true,
   "engines": {
     "node": "0.10.x",
     "npm": "1.2.18"
