@@ -27,6 +27,20 @@ If it is found in the registry, a set is sent back to the client.
 
 If it's not, the API searches CDNJS for a matching identifier. If it finds it, it returns a set containing the matched URL. Otherwise it returns a `404` with an empty set.
 
+## Testing
+
+To run the tests:
+
+```
+$ foreman start -p 9005
+```
+
+In another tab:
+
+```
+$ npm test
+```
+
 ## License
 
 MIT
